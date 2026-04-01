@@ -284,9 +284,11 @@ export async function initHardwareInfo() {
 
         let gpuHtml = `
             <div class="hex-display" style="line-height: 1.8;">
-                <div><strong>Description :</strong> ${adapterInfo.description || 'Non disponible'}</div>
                 <div><strong>Type :</strong> ${adapter.isFallbackAdapter ? 'Logiciel (Fallback)' : 'Matériel'}</div>
                 <div><strong>Vendeur :</strong> ${adapterInfo.vendor || 'Non disponible'}</div>
+                <div><strong>Architecture :</strong> ${adapterInfo.architecture || 'Non disponible'}</div>
+                <div><strong>Appareil :</strong> ${adapterInfo.device || 'Non disponible'}</div>
+                <div><strong>Description :</strong> ${adapterInfo.description || 'Non disponible'}</div>
             </div>
             <div class="stat-grid" style="margin-top: 15px;">
                 <div class="stat-box" style="padding: 10px;"><span class="label">Max Threads/Workgroup</span><span class="stat-val" style="font-size: 18px;">${adapter.limits.maxComputeInvocationsPerWorkgroup.toLocaleString()}</span></div>
