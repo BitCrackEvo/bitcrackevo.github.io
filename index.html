@@ -1,11 +1,306 @@
-<!doctype html>
+<!-- Context: Monolithic architecture -->
+
+<!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Ma page de test</title>
-  </head>
-  <body>
-    <img src="images/firefox-icon.png" alt="Mon image de test" />
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BitCrackEvo - Outil WebGPU de Recherche et Puzzle Bitcoin</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="BitCrackEvo est un outil web expérimental utilisant WebGPU pour la recherche de clés privées Bitcoin, la résolution de puzzles (Bitcoin Challenge) et le benchmark de performance cryptographique.">
+    <meta name="keywords" content="WebGPU, Bitcoin, Puzzle, Challenge, BitCrack, Brute-force, Secp256k1, Clé privée, Cryptographie, Benchmark, WGSL">
+    <meta name="author" content="BitCrackEvo">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="BitCrackEvo - Outil WebGPU de Recherche et Puzzle Bitcoin">
+    <meta property="og:description" content="Explorez la recherche de clés privées Bitcoin avec la puissance de WebGPU directement dans votre navigateur.">
+    <!-- <meta property="og:image" content="URL_DE_VOTRE_IMAGE_DE_PREVISUALISATION"> -->
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="wrapper">
+    <h1 style="text-align: center; margin-bottom: 20px; font-size: 2em; color: var(--accent);">BitCrackEvo</h1>
+    <div class="tabs">
+        <button class="tab" data-tab="home">Accueil</button>
+        <button class="tab" data-tab="visualizer">Visualiseur</button>
+        <button class="tab" data-tab="bench">Benchmark</button>
+        <button class="tab" data-tab="search">Rechercher</button>
+        <button class="tab" data-tab="puzzle">Puzzle</button>
+        <button class="tab" data-tab="saved">Sauvegardes</button>
+        <button class="tab" data-tab="about">À propos</button>
+        <button class="tab" data-tab="hardware">Matériel</button>
+    </div>
+
+    <div id="home" class="content">
+        <h2>Bienvenue sur BitCrackEvo</h2>
+        <p>
+            BitCrackEvo est un outil expérimental avancé dédié à l'exploration et la recherche de clés privées Bitcoin. 
+            Il intègre un moteur de force brute utilisant la puissance de calcul de votre processeur (CPU) et de votre carte graphique via <strong>WebGPU</strong>.
+        </p>
+        
+        <div class="section" style="border-left-color: var(--accent);">
+            <span class="label" style="color: var(--accent);">👁️ Visualiseur</span>
+            <p style="margin: 0; font-size: 13px; line-height: 1.5;">Outil de conversion étape par étape. Entrez une clé privée pour voir la génération de la clé publique, du Hash160 et de l'adresse finale P2PKH.</p>
+        </div>
+        <div class="section" style="border-left-color: var(--blue);">
+            <span class="label" style="color: var(--blue);">⏱️ Benchmark</span>
+            <p style="margin: 0; font-size: 13px; line-height: 1.5;">Testez les performances de votre machine. Ce module évalue combien de clés cryptographiques votre CPU peut générer par seconde.</p>
+        </div>
+        <div class="section" style="border-left-color: var(--green);">
+            <span class="label" style="color: var(--green);">🔍 Rechercher</span>
+            <p style="margin: 0; font-size: 13px; line-height: 1.5;">Moteur de force brute manuel. Définissez une adresse cible et une plage de clés hexadécimales personnalisée, puis lancez la recherche (CPU ou GPU).</p>
+        </div>
+        <div class="section" style="border-left-color: var(--yellow);"> 
+            <span class="label" style="color: var(--yellow);">🧩 Puzzle</span>
+            <p style="margin: 0; font-size: 13px; line-height: 1.5;">Interface préconfigurée pour le célèbre "Bitcoin Puzzle Challenge". Sélectionnez un défi (bit) et tentez de le résoudre.</p>
+        </div>
+        <div class="section" style="border-left-color: var(--pink);"> 
+            <span class="label" style="color: var(--pink);">💾 Sauvegardes</span>
+            <p style="margin: 0; font-size: 13px; line-height: 1.5;">Historique local sécurisé. Si vous trouvez une clé privée, elle sera automatiquement enregistrée ici pour ne pas la perdre.</p>
+        </div>
+        <div class="section" style="border-left-color: var(--text-muted);">
+            <span class="label" style="color: var(--text-muted);">ℹ️ À propos</span>
+            <p style="margin: 0; font-size: 13px; line-height: 1.5;">Informations sur les algorithmes, les sources du projet, et rappels de sécurité concernant l'utilisation de cet outil.</p>
+        </div>
+        <div class="section" style="border-left-color: var(--text-muted);">
+            <span class="label" style="color: var(--text-muted);">Code Source</span>
+            <p style="margin: 0; font-size: 13px; line-height: 1.5;">
+                Le projet est open-source. Consultez le code et contribuez sur 
+                <a href="https://github.com/BitCrackEvo" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 5px; vertical-align: bottom;">
+                    <svg viewBox="0 0 16 16" version="1.1" aria-hidden="true" style="width: 16px; height: 16px; fill: currentColor;">
+                        <title>GitHub</title>
+                        <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21-.15.46-.55.38A8.013 8.013 0 010 8c0-4.42 3.58-8 8-8z"></path>
+                    </svg>
+                    GitHub
+                </a>.
+            </p>
+        </div>
+    </div>
+
+    <div id="visualizer" class="content">
+        <h2>Analyse Secp256k1</h2>
+        <div class="input-group">
+            <button id="adjustKeyMinus" class="nav">- 1</button>
+            <input type="text" id="privInput" class="input-field" spellcheck="false" placeholder="Clé privée (hex)">
+            <button id="adjustKeyPlus" class="nav">+ 1</button>
+            <button id="generateRandom">🎲 Aléatoire</button>
+        </div>
+        <div class="section">
+            <span class="label">Publique Non-Compressée (04 + <span style="color:var(--green)">X</span> + <span style="color:var(--blue)">Y</span>)</span>
+            <div id="pub-uncomp" class="hex-display">-</div>
+        </div>
+        <div class="section">
+            <span class="label">Publique Compressée (02/03 + <span style="color:var(--green)">X</span>)</span>
+            <div id="pub-comp" class="hex-display">-</div>
+        </div>
+        <div class="section" style="border-left-color: var(--pink);">
+            <span class="label" style="color: var(--pink);">Hash160 (RIPEMD160 de SHA256)</span>
+            <div id="h160-val" class="hex-display hash-color">-</div>
+        </div>
+
+        <div class="section" style="border-left-color: var(--yellow);">
+            <span class="label" style="color: var(--yellow);">Adresse Bitcoin Legacy (P2PKH)</span>
+            <div id="btc-addr" class="address-value">-</div>
+            <button id="copyAddressBtn" style="width:100%; background: var(--border); color: var(--text);">COPIER L'ADRESSE</button>
+        </div>
+    </div>
+
+    <div id="bench" class="content">
+        <h2>Benchmark</h2>
+        <div class="config-box">
+            <div class="input-group">
+                <div><span class="label">Début (hex)</span><input type="text" id="benchStartKey" class="input-field" value="1" placeholder="Début (hex)"></div>
+                <div><span class="label">Incrément</span><input type="number" id="benchStep" class="input-field" value="1" placeholder="Incrément"></div>
+            </div>
+            <label><input type="checkbox" id="benchRandom"> Mode aléatoire</label>
+            <div class="input-group" style="margin-top: 15px; margin-bottom: 0;">
+                <button id="startBenchBtn" style="background:var(--pink); color:var(--button-text-on-color); flex: 1;">TESTER LE CPU</button>
+                <button id="startBenchGpuBtn" style="background:var(--blue); color:var(--button-text-on-color); flex: 1;">TESTER LE GPU</button>
+                <button id="stopBenchBtn" style="background:var(--red); color:var(--button-text-on-color); flex: 1;">STOP</button>
+            </div>
+        </div>
+        <div class="stat-grid">
+            <div class="stat-box"><span class="label">Clés</span><span id="keysCount" class="stat-val">0</span></div>
+            <div class="stat-box"><span class="label">Clés/sec</span><span id="keysSpeed" class="stat-val">0</span></div>
+        </div>
+    </div>
+
+    <div id="search" class="content">
+        <h2>Recherche Manuelle</h2>
+        <div id="resume-container-search"></div>
+        <div class="config-box">
+            <div class="input-group">
+            <input type="text" id="targetAddr" class="input-field" style="width:100%; margin-bottom:10px" placeholder="Adresse Bitcoin Cible (ex: 1BgG...)">
+            </div>
+            <div class="input-group">
+                <input type="text" id="searchStart" class="input-field" placeholder="Début (hex)">
+                <input type="text" id="searchEnd" class="input-field" placeholder="Fin (hex)">
+            </div>
+            <div class="input-group" style="align-items: center;">
+                <span class="label" style="margin: 0; flex-grow: 0;">Threads CPU</span>
+                <select id="searchThreads" class="input-field" style="flex-grow: 1;"></select>
+                <span class="label" style="margin: 0; flex-grow: 0;">Intensité GPU</span>
+                <select id="searchGpuWorkgroups" class="input-field" style="flex-grow: 1;">
+                    <option value="auto" selected>Automatique</option>
+                    <option value="4096">Faible (4096)</option>
+                    <option value="16384">Moyenne (16384)</option>
+                    <option value="32768">Haute (32768)</option>
+                    <option value="65535">Maximum (65535)</option>
+                </select>
+                <span class="label" style="margin: 0; flex-grow: 0;">Threads/WG GPU</span>
+                <select id="searchGpuThreads" class="input-field" style="flex-grow: 1;">
+                    <option value="auto">Auto</option>
+                    <option value="8" selected>8 (Défaut)</option>
+                    <option value="16">16</option>
+                    <option value="32">32</option>
+                    <option value="64">64</option>
+                    <option value="128">128</option>
+                    <option value="256">256</option>
+                </select>
+            </div>
+            <div class="input-group" style="margin-top: 10px; margin-bottom: 0;">
+                <button id="startSearchCpuBtn" style="background:var(--green); color:var(--bg); flex: 1;">LANCER LA RECHERCHE</button>
+                <button id="startSearchGpuBtn" style="background:var(--blue); color:var(--button-text-on-color); flex: 1;">LANCER RECHERCHE WEBGPU</button>
+                <button id="stopSearchBtn" style="background:var(--red); color:var(--button-text-on-color); flex: 1;">STOP</button>
+            </div>
+        </div>
+        <div class="stat-box"><span class="label">Statut</span><span id="searchStatus" class="stat-val" style="font-size:18px">Prêt</span></div>
+        <div style="background: var(--section-bg); border-radius: 8px; padding: 3px; margin-top: 10px; border: 1px solid var(--border);">
+            <div id="searchProgressBar" style="width: 0%; background: var(--green); height: 12px; border-radius: 5px; transition: width 0.3s ease;"></div>
+        </div>
+        <div id="searchETA" style="text-align: center; font-size: 12px; color: #94a3b8; margin-top: 5px; height: 1em;"></div>
+        <div id="searchThreadsInfo" class="threads-info-container"></div>
+        <div id="searchResult" class="section" style="display:none; margin-top:20px; border-left-color:var(--green)">
+            <span class="label" style="color:var(--green)">TROUVÉ !</span>
+            <div id="searchFoundKey" class="hex-display" style="font-weight:bold"></div>
+        </div>
+    </div>
+
+    <div id="puzzle" class="content">
+        <h2>Bitcoin Challenge (Puzzle)</h2>
+        <div id="resume-container-puzzle"></div>
+        <div class="config-box">
+            <span class="label">Choisir un Bit (1-160)</span>
+            <select id="puzzleSelect" class="input-field" style="width:100%; margin-bottom:10px;">
+                </select>
+            
+            <div class="section" style="border-left: 2px solid var(--yellow);">
+                <span class="label" style="color: var(--yellow);">Adresse Cible</span>
+                <div id="puzzleTargetDisplay" style="color: var(--text); font-weight: bold;">-</div>
+                <div id="puzzleSolvedStatus" class="solved-info" style="display:none;"></div>
+            </div>
+
+            <div id="puzzleRangeSizeInfo" class="section" style="padding: 8px; margin-top: 10px; margin-bottom: 10px; border-left-color: var(--border);">
+                 <span class="label">Taille de l'intervalle de recherche</span>
+                 <div id="puzzleRangeSize" style="font-weight: bold; color: var(--accent);">- clés à tester</div>
+            </div>
+
+            <div class="input-group">
+                <div><span class="label">Début Range</span><input type="text" id="puzzleStart" class="input-field"></div>
+                <div><span class="label">Fin Range</span><input type="text" id="puzzleEnd" class="input-field"></div>
+                <div><span class="label">Threads CPU</span><select id="puzzleThreads" class="input-field" style="flex-grow: 1;"></select></div>
+                <div><span class="label">Intensité GPU</span>
+                    <select id="puzzleGpuWorkgroups" class="input-field" style="flex-grow: 1;">
+                        <option value="auto" selected>Automatique</option>
+                        <option value="4096">Faible (4096)</option>
+                        <option value="16384">Moyenne (16384)</option>
+                        <option value="32768">Haute (32768)</option>
+                        <option value="65535">Maximum (65535)</option>
+                    </select>
+                </div>
+                <div><span class="label">Threads/WG GPU</span>
+                    <select id="puzzleGpuThreads" class="input-field" style="flex-grow: 1;">
+                        <option value="auto">Auto</option>
+                        <option value="8" selected>8 (Défaut)</option>
+                        <option value="16">16</option>
+                        <option value="32">32</option>
+                        <option value="64">64</option>
+                        <option value="128">128</option>
+                        <option value="256">256</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group" style="margin-top: 10px; margin-bottom: 0;">
+                <button id="startPuzzleCpuBtn" style="background:var(--accent); color:var(--bg); flex: 1;">BRUTE-FORCE (CPU)</button>
+                <button id="startPuzzleGpuBtn" style="background:var(--blue); color:var(--button-text-on-color); flex: 1;">BRUTE-FORCE (GPU)</button>
+                <button id="stopPuzzleBtn" style="background:var(--red); color:var(--button-text-on-color); flex: 1;">STOP</button>
+            </div>
+        </div>
+        
+        <div class="stat-box"><span class="label">Progression</span><span id="puzzleStatus" class="stat-val" style="font-size:18px">Sélectionnez un bit</span></div>
+        <div style="background: var(--section-bg); border-radius: 8px; padding: 3px; margin-top: 10px; border: 1px solid var(--border);">
+            <div id="puzzleProgressBar" style="width: 0%; background: var(--accent); height: 12px; border-radius: 5px; transition: width 0.3s ease;"></div>
+        </div>
+        <div id="puzzleETA" style="text-align: center; font-size: 12px; color: #94a3b8; margin-top: 5px; height: 1em;"></div>
+        <div id="puzzleThreadsInfo" class="threads-info-container"></div>
+        
+        <div id="puzzleResult" class="section" style="display:none; margin-top:20px; border-left-color:var(--green)">
+            <span class="label" style="color:var(--green)">RÉSULTAT TROUVÉ !</span>
+            <div id="puzzleFoundKey" class="hex-display" style="font-weight:bold; color: var(--green);"></div>
+        </div>
+    </div>
+
+    <div id="saved" class="content">
+        <h2>Clés Privées Sauvegardées</h2>
+        <div id="savedList"></div>
+        <button id="clearSavedBtn" style="background:var(--red); color:var(--button-text-on-color); margin-top: 15px;">EFFACER TOUT</button>
+    </div>
+
+    <div id="about" class="content">
+        <h2>À propos & Crédits</h2>
+        <div class="section" style="border-left-color: var(--blue);">
+            <span class="label" style="color: var(--blue);">Algorithmes Cryptographiques</span>
+            <p style="font-size: 13px; line-height: 1.5; margin-bottom: 0;">Les implémentations JavaScript des fonctions de hachage et de la cryptographie sur courbe elliptique s'inspirent d'algorithmes du domaine public et de bibliothèques open-source de référence, popularisées notamment par des développeurs comme <a href="http://pajhome.org.uk/crypt/md5/" target="_blank" rel="noopener noreferrer">Paul Johnston</a> ou <a href="https://github.com/paulmillr/noble-secp256k1" target="_blank" rel="noopener noreferrer">Paul Miller (série Noble)</a>.</p>
+        </div>
+        <div class="section" style="border-left-color: var(--accent);">
+            <span class="label" style="color: var(--accent);">Ressource Éducative</span>
+            <p style="font-size: 13px; line-height: 1.5; margin-bottom: 0;">
+                Pour une excellente introduction (en anglais) à la cryptographie sur les courbes elliptiques, qui est au cœur du fonctionnement de Bitcoin, le blog d'Andrea Corbellini est une lecture fortement recommandée :<br>
+                <a href="https://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/" target="_blank" rel="noopener noreferrer">Elliptic Curve Cryptography: A Gentle Introduction</a>.
+            </p>
+        </div>
+        <div class="section" style="border-left-color: var(--pink);">
+            <span class="label" style="color: var(--pink);">Accélération WebGPU (WGSL)</span>
+            <p style="font-size: 13px; line-height: 1.5; margin-bottom: 0;">Le shader de calcul WebGPU s'appuie fortement sur les recherches et développements de la communauté open-source dédiée à la résolution des "Bitcoin Puzzles" (projets type <a href="https://github.com/brichard19/BitCrack" target="_blank" rel="noopener noreferrer">BitCrack</a>, <a href="https://github.com/oritwoen/kangaroo" target="_blank" rel="noopener noreferrer">kangaroo</a>, etc.). Il intègre des techniques mathématiques avancées telles que l'inversion par lot de Montgomery (Montgomery Batch Inversion) et l'utilisation de tables de points précalculées.</p>
+        </div>
+        <div class="section" style="border-left-color: var(--yellow);">
+            <span class="label" style="color: var(--yellow);">Données du Challenge</span>
+            <p style="font-size: 13px; line-height: 1.5; margin-bottom: 0;">Les adresses cibles, les plages de clés et les historiques de résolution intégrés dans l'onglet "Puzzle" proviennent des données publiques du célèbre <a href="https://en.bitcoin.it/wiki/Bitcoin_puzzle" target="_blank" rel="noopener noreferrer">"Bitcoin Puzzle Challenge"</a> initié en 2015.</p>
+        </div>
+        <div class="section" style="border-left-color: var(--red); background: rgba(var(--red-rgb), 0.1);">
+            <span class="label" style="color: var(--red);">Avertissement Éducatif</span>
+            <p style="font-size: 13px; line-height: 1.5; margin-bottom: 0; color: var(--red);">Cet outil est fourni à des fins strictement éducatives et de recherche technologique (démonstration des capacités de calcul asynchrone de WebGPU). L'auteur décline toute responsabilité quant à l'utilisation qui pourrait en être faite.</p>
+        </div>
+    </div>
+
+    <div id="hardware" class="content">
+        <h2>Spécificités Matérielles</h2>
+        <p style="font-size: 14px; line-height: 1.6; color: var(--text-muted); margin-bottom: 25px;">
+            Cette section détaille les informations détectées sur votre matériel, utilisées par l'application pour les calculs.
+            Les informations GPU sont fournies via l'API WebGPU.
+        </p>
+        
+        <div class="section" style="border-left-color: var(--blue);">
+            <span class="label" style="color: var(--blue);">Processeur (CPU)</span>
+            <div id="cpuInfo">Chargement...</div>
+        </div>
+
+        <div class="section" style="border-left-color: var(--green);">
+            <span class="label" style="color: var(--green);">Carte Graphique (GPU)</span>
+            <div id="gpuInfo">Chargement...</div>
+        </div>
+    </div>
+</div>
+
+<div id="toast">Copié !</div>
+<button id="theme-toggle">💡</button>
+
+<script type="module" src="js/main.js"></script>
+</body>
 </html>
