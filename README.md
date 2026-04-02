@@ -43,6 +43,14 @@ BitCrackEvo Online est une application web fonctionnant entièrement côté clie
 
 > **Note :** Un navigateur moderne compatible avec **WebGPU** (comme Google Chrome ou Microsoft Edge récents) est requis pour utiliser les fonctionnalités de calcul GPU.
 
+## 🗺️ Roadmap (Feuille de route)
+
+- [ ] Ajout de la prise en charge des adresses SegWit (P2WPKH / Bech32).
+- [ ] Implémentation de l'algorithme "Kangaroo" de Pollard pour optimiser la recherche sur de grandes plages.
+- [ ] Amélioration de l'interface utilisateur (UI/UX) pour une meilleure compatibilité sur appareils mobiles.
+- [ ] Ajout de graphiques de performances et statistiques détaillées en temps réel.
+- [ ] Exploration de la prise en charge multi-GPU (selon les évolutions futures de l'API WebGPU).
+
 ## 📚 Ressources
 
 Les données des puzzles proviennent du défi original de 2015 : Bitcoin Puzzle Challenge.
